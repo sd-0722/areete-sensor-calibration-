@@ -16,7 +16,6 @@ from watchdog.events import LoggingEventHandler, FileSystemEvent
 def todatetime(epoch):
     return datetime.fromtimestamp(epoch) 
 
-
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the bucket."""
     # The ID of your GCS bucket
@@ -50,6 +49,7 @@ class CustomEventHandler(LoggingEventHandler):
         what = "directory" if event.is_directory else "file"
         self.logger.info("Created %s: %s", what, event.src_path)
         now = time.time()
+        self.logger.info("Created %s: %s", what, event.src_path)
         upload_blob("cow_sounds", event.src_path, f"test_{todatetime(now)}.wav")
 
 
@@ -79,7 +79,6 @@ def random_file_creator():
             time.sleep(20)
 
 def client():
-
     curr = time.time()
 
     CHUNK = 1024 * 4
