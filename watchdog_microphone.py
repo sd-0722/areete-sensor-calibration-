@@ -13,6 +13,9 @@ from datetime import datetime
 from watchdog.observers import Observer
 from watchdog.events import LoggingEventHandler, FileSystemEvent
 
+def todatetime(epoch):
+    return datetime.fromtimestamp(epoch) 
+
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
     """Uploads a file to the bucket."""
@@ -47,7 +50,7 @@ class CustomEventHandler(LoggingEventHandler):
         what = "directory" if event.is_directory else "file"
         self.logger.info("Created %s: %s", what, event.src_path)
         now = time.time()
-        upload_blob("cow_sounds", event.src_path, f"test_{now}.txt")
+        upload_blob("cow_sounds", event.src_path, f"test_{todatetime(now)}.wav")
 
 
 #upload_blob("cow_sounds", "./bucket_upload_test/brat.png", "brat.png")
@@ -76,11 +79,6 @@ def random_file_creator():
             time.sleep(20)
 
 def client():
-    def todatetime(epoch):
-        return datetime.fromtimestamp(epoch) 
-    
-    def todatetime(epoch):
-        return datetime.fromtimestamp(epoch)  
 
     curr = time.time()
 
